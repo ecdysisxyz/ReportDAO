@@ -14,10 +14,8 @@ contract RejectReportAndBan {
         Schema.Report storage report = s.reports[reportId];
         require(report.reportID == reportId, "Report does not exist");
 
-        // Add vote to reject the report
         report.votes[msg.sender] = true;
 
-        // Count the votes
         uint256 voteCount = 0;
         for (uint256 i = 0; i < s.userList.length; i++) {
             if (report.votes[s.userList[i]]) {
@@ -25,17 +23,14 @@ contract RejectReportAndBan {
             }
         }
 
-        // Check if quorum is reached
         require(voteCount > s.quorum, "Quorum not reached");
 
-        // Ban the reporter and mark the report as rejected
         s.users[reporter].isBanned = true;
         report.isRejected = true;
 
-        // Update quorum
         s.quorum = calculateQuorum(s.userList);
 
-        GlobalStateLib.activeUserCount();
+        GlobalStateLib.updateActiveUserCount();
         emit ReportRejected(reporter, reportId, msg.sender);
     }
 

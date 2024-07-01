@@ -5,7 +5,7 @@ import "../storage/Schema.sol";
 import "../storage/Storage.sol";
 
 library GlobalStateLib {
-    function activeUserCount() internal {
+    function updateActiveUserCount() internal {
         Schema.GlobalState storage s = Storage.state();
         Schema.User storage u = s.users[msg.sender];
 
@@ -20,12 +20,12 @@ library GlobalStateLib {
             s.activeUserCount = _newActiveUserCount;
             s.quorum = _newActiveUserCount / 2;
         }
+
         if (u.activeHeartbeat > 12) {
             u.isActive = true;
             uint _newActiveUserCount = s.activeUserCount + 1;
             s.activeUserCount = _newActiveUserCount;
             s.quorum = _newActiveUserCount / 2;
         }
-
     }
 }

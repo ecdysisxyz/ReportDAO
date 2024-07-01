@@ -20,9 +20,8 @@ contract ReportSafetyIssue {
         report.timestamp = block.timestamp;
 
         s.users[msg.sender].reportCount++;
+        GlobalStateLib.updateActiveUserCount();
 
-
-        GlobalStateLib.activeUserCount();
         emit ReportCreated(msg.sender, reportID, description, location, cid);
     }
 

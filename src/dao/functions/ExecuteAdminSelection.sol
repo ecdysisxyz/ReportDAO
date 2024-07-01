@@ -9,21 +9,18 @@ contract ExecuteAdminSelection {
         Schema.GlobalState storage s = Storage.state();
         require(!s.users[msg.sender].isBanned, "User is banned");
 
-        // Admin selection logic
         uint256 totalStake = 0;
         address[] memory candidates;
         uint256 candidateCount = 0;
 
-        // Calculate total stake
-        for (uint256 i = 0; i < s.users.length; i++) {
-            if (!s.users[i].isBanned && s.users[i].stakeAmount > 0) {
-                totalStake += s.users[i].stakeAmount;
-                candidates[candidateCount] = s.users[i].userID;
+        for (uint256 i = 0; i < s.userList.length; i++) {
+            if (!s.users[s.userList[i]].isBanned && s.users[s.userList[i]].stakeAmount > 0) {
+                totalStake += s.users[s.userList[i]].stakeAmount;
+                candidates[candidateCount] = s.userList[i];
                 candidateCount++;
             }
         }
 
-        // Sort candidates by stake amount (in descending order)
         for (uint256 i = 0; i < candidateCount; i++) {
             for (uint256 j = i + 1; j < candidateCount; j++) {
                 if (s.users[candidates[i]].stakeAmount < s.users[candidates[j]].stakeAmount) {
@@ -34,7 +31,6 @@ contract ExecuteAdminSelection {
             }
         }
 
-        // Select top candidates as admins
         uint256 adminCount = uint256(sqrt(candidateCount));
         for (uint256 i = 0; i < adminCount; i++) {
             s.admins[candidates[i]].userID = candidates[i];

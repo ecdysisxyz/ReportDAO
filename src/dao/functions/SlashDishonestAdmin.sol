@@ -15,16 +15,13 @@ contract SlashDishonestAdmin {
         Schema.Admin storage adminData = s.admins[admin];
         require(adminData.userID == admin, "Admin does not exist");
 
-        // Slash admin's stake logic
         uint256 stakeAmount = s.users[admin].stakeAmount;
         require(stakeAmount > 0, "No stake to slash");
 
-        // Burn the slashed tokens
         require(token.transfer(address(0), stakeAmount), "Token burn failed");
 
-        // Update admin's stake
         s.users[admin].stakeAmount = 0;
-        GlobalStateLib.activeUserCount();
+        GlobalStateLib.updateActiveUserCount();
 
         emit AdminSlashed(admin, stakeAmount);
     }

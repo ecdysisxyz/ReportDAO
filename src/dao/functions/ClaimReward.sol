@@ -15,7 +15,7 @@ contract ClaimReward {
 
         s.rewards[msg.sender].amount = 0;
         payable(msg.sender).transfer(rewardAmount);
-        GlobalStateLib.activeUserCount();
+        GlobalStateLib.updateActiveUserCount();
 
         emit RewardClaimed(msg.sender, rewardAmount);
     }
