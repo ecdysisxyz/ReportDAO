@@ -10,9 +10,11 @@ library Schema {
         mapping(address => Reward) rewards;
         uint256 nextReportID;
         uint256 nextRejectID;
+        address[] userList;
     }
 
     struct User {
+        address userID;
         bool isBanned;
         uint256 stakeAmount;
         uint256 reportCount;
