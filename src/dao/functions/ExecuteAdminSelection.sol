@@ -13,14 +13,17 @@ contract ExecuteAdminSelection {
         address[] memory candidates;
         uint256 candidateCount = 0;
 
+        // Collect active users with stakes
         for (uint256 i = 0; i < s.userList.length; i++) {
-            if (!s.users[s.userList[i]].isBanned && s.users[s.userList[i]].stakeAmount > 0) {
-                totalStake += s.users[s.userList[i]].stakeAmount;
-                candidates[candidateCount] = s.userList[i];
+            address userAddress = s.userList[i];
+            if (s.users[userAddress].isActive && s.users[userAddress].stakeAmount > 0) {
+                totalStake += s.users[userAddress].stakeAmount;
+                candidates[candidateCount] = userAddress;
                 candidateCount++;
             }
         }
 
+        // Sort candidates by stake amount (in descending order)
         for (uint256 i = 0; i < candidateCount; i++) {
             for (uint256 j = i + 1; j < candidateCount; j++) {
                 if (s.users[candidates[i]].stakeAmount < s.users[candidates[j]].stakeAmount) {
@@ -31,6 +34,7 @@ contract ExecuteAdminSelection {
             }
         }
 
+        // Select top candidates as admins
         uint256 adminCount = uint256(sqrt(candidateCount));
         for (uint256 i = 0; i < adminCount; i++) {
             s.admins[candidates[i]].userID = candidates[i];
