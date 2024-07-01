@@ -1,5 +1,5 @@
 ```mermaid
-erDiagram
+  erDiagram
     USER {
         address userID PK
         bool isBanned
@@ -18,7 +18,6 @@ erDiagram
         bool isRejected
         bool isBanSuggested
         uint256 timestamp
-        mapping(address => bool) votes
     }
 
     ADMIN {
@@ -43,11 +42,22 @@ erDiagram
         uint256 timestamp
     }
 
+    VOTE {
+        uint256 voteID PK
+        address voterID FK
+        uint256 reportID FK
+        bool vote
+    }
+
     USER ||--o{ REPORT : "submits"
     USER ||--o{ ADMIN : "can become"
     USER ||--o{ REJECT : "can initiate"
     USER ||--o{ REWARD : "receives"
+    USER ||--o{ VOTE : "casts"
     REPORT ||--|{ USER : "reported by"
+    REPORT ||--o{ VOTE : "receives"
     REJECT ||--|{ REPORT : "rejects"
     REJECT ||--|{ USER : "initiated by"
     REJECT ||--|{ ADMIN : "against"
+    VOTE ||--|{ USER : "cast by"
+    VOTE ||--|{ REPORT : "on"
