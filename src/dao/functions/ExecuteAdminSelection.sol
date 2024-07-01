@@ -9,7 +9,8 @@ contract ExecuteAdminSelection {
         Schema.GlobalState storage s = Storage.state();
         require(!s.users[msg.sender].isBanned, "User is banned");
 
-        // Implement the logic for admin selection
+        // Admin selection logic
+        // For example, select top stakers as admins
         // ...
 
         emit AdminSelectionExecuted();

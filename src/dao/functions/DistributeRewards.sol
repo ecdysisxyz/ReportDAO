@@ -9,7 +9,8 @@ contract DistributeRewards {
         Schema.GlobalState storage s = Storage.state();
         require(!s.users[msg.sender].isBanned, "User is banned");
 
-        // Implement the logic for reward distribution
+        // Reward distribution logic
+        // For example, distribute rewards among active users
         // ...
 
         emit RewardsDistributed();

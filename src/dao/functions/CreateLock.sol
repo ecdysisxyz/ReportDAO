@@ -9,8 +9,8 @@ contract CreateLock {
         Schema.GlobalState storage s = Storage.state();
         require(!s.users[msg.sender].isBanned, "User is banned");
 
-        // Implement the logic to lock tokens
-        // ...
+        // Lock tokens logic
+        s.users[msg.sender].stakeAmount += amount;
 
         emit LockCreated(msg.sender, amount, unlockTime);
     }

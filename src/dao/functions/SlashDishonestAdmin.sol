@@ -12,8 +12,8 @@ contract SlashDishonestAdmin {
         Schema.Admin storage adminData = s.admins[admin];
         require(adminData.userID == admin, "Admin does not exist");
 
-        // Implement logic to slash admin's stake
-        // ...
+        // Slash admin's stake logic
+        s.users[admin].stakeAmount = 0;
 
         emit AdminSlashed(admin);
     }

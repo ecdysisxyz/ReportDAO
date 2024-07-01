@@ -5,7 +5,7 @@ import "../storage/Schema.sol";
 import "../storage/Storage.sol";
 
 contract ReportSafetyIssue {
-    function reportSafetyIssue(string memory description, string memory location, bytes32 memory cid) external {
+    function reportSafetyIssue(string memory description, string memory location, bytes32 cid) external {
         Schema.GlobalState storage s = Storage.state();
         require(!s.users[msg.sender].isBanned, "User is banned");
 
