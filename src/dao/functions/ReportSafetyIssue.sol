@@ -3,6 +3,7 @@ pragma solidity ^0.8.23;
 
 import "../storage/Schema.sol";
 import "../storage/Storage.sol";
+import "../utils/GlobalStateLib.sol";
 
 contract ReportSafetyIssue {
     function reportSafetyIssue(string memory description, string memory location, bytes32 cid) external {
@@ -20,6 +21,8 @@ contract ReportSafetyIssue {
 
         s.users[msg.sender].reportCount++;
 
+
+        GlobalStateLib.activeUserCount();
         emit ReportCreated(msg.sender, reportID, description, location, cid);
     }
 

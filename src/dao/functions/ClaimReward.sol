@@ -3,6 +3,7 @@ pragma solidity ^0.8.23;
 
 import "../storage/Schema.sol";
 import "../storage/Storage.sol";
+import "../utils/GlobalStateLib.sol";
 
 contract ClaimReward {
     function claimReward() external {
@@ -14,6 +15,7 @@ contract ClaimReward {
 
         s.rewards[msg.sender].amount = 0;
         payable(msg.sender).transfer(rewardAmount);
+        GlobalStateLib.activeUserCount();
 
         emit RewardClaimed(msg.sender, rewardAmount);
     }

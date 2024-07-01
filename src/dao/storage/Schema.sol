@@ -10,7 +10,11 @@ library Schema {
         mapping(address => Reward) rewards;
         uint256 nextReportID;
         uint256 nextRejectID;
+        address tokenAddress;
         address[] userList;
+        uint256 quorum;
+        bool initialized;
+        uint256 activeUserCount; // Added activeUserCount field
     }
 
     struct User {
@@ -18,6 +22,9 @@ library Schema {
         bool isBanned;
         uint256 stakeAmount;
         uint256 reportCount;
+        bool isActive;
+        uint256 lastActiveTimestamp; // Added to track user activity
+        uint256 activeHeartbeat; // Added to track continuous activity
     }
 
     struct Report {
@@ -29,6 +36,7 @@ library Schema {
         bool isRejected;
         bool isBanSuggested;
         uint256 timestamp;
+        mapping(address => bool) votes; // Added to track votes
     }
 
     struct Admin {
