@@ -8,7 +8,7 @@ import "../utils/OnlyOnce.sol";
 
 contract Initialize is OnlyOnce {
     function initialize(address tokenAddr) external onlyOnce {
-        Schema.GlobalState storage s = Storage.state();
-        s.tokenAddress = tokenAddr;
+        Schema.GlobalState storage $s = Storage.state();
+        $s.tokenAddress = tokenAddr;
     }
 }

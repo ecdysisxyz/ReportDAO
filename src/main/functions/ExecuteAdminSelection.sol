@@ -7,17 +7,17 @@ import "../storage/Storage.sol";
 contract ExecuteAdminSelection {
     function executeAdminSelection() external {
         Schema.GlobalState storage s = Storage.state();
-        require(!s.users[msg.sender].isBanned, "User is banned");
+        require(!$s.users[msg.sender].isBanned, "User is banned");
 
         uint256 totalStake = 0;
         address[] memory minHeap = new address[](55);  // Min-heap of size sqrt(3000) ≈ 55
         uint256 heapSize = 0;
 
         // Collect active users with stakes
-        for (uint256 i = 0; i < s.userList.length; i++) {
-            address userAddress = s.userList[i];
-            if (s.users[userAddress].isActive && s.users[userAddress].stakeAmount > 0) {
-                totalStake += s.users[userAddress].stakeAmount;
+        for (uint256 i = 0; i < $s.userList.length; i++) {
+            address userAddress = $s.userList[i];
+            if ($s.users[userAddress].isActive && $s.users[userAddress].stakeAmount > 0) {
+                totalStake += $s.users[userAddress].stakeAmount;
 
                 // Maintain min-heap of top 55 staked users
                 if (heapSize < 55) {
@@ -26,7 +26,7 @@ contract ExecuteAdminSelection {
                     if (heapSize == 55) {
                         buildMinHeap(minHeap, s);
                     }
-                } else if (s.users[userAddress].stakeAmount > s.users[minHeap[0]].stakeAmount) {
+                } else if ($s.users[userAddress].stakeAmount > $s.users[minHeap[0]].stakeAmount) {
                     minHeap[0] = userAddress;
                     minHeapify(minHeap, 0, s);
                 }
@@ -35,8 +35,8 @@ contract ExecuteAdminSelection {
 
         // Update admins with the addresses in minHeap
         for (uint256 i = 0; i < heapSize; i++) {
-            s.admins[minHeap[i]].userID = minHeap[i];
-            s.admins[minHeap[i]].stakeAmount = s.users[minHeap[i]].stakeAmount;
+            $s.admins[minHeap[i]].userID = minHeap[i];
+            $s.admins[minHeap[i]].stakeAmount = $s.users[minHeap[i]].stakeAmount;
         }
 
         emit AdminSelectionExecuted();
@@ -53,11 +53,11 @@ contract ExecuteAdminSelection {
         uint256 right = 2 * i + 2;
         uint256 smallest = i;
 
-        if (left < heap.length && s.users[heap[left]].stakeAmount < s.users[heap[smallest]].stakeAmount) {
+        if (left < heap.length && $s.users[heap[left]].stakeAmount < $s.users[heap[smallest]].stakeAmount) {
             smallest = left;
         }
 
-        if (right < heap.length && s.users[heap[right]].stakeAmount < s.users[heap[smallest]].stakeAmount) {
+        if (right < heap.length && $s.users[heap[right]].stakeAmount < $s.users[heap[smallest]].stakeAmount) {
             smallest = right;
         }
 

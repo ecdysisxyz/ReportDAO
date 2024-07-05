@@ -7,11 +7,11 @@ import "../utils/GlobalStateLib.sol";
 
 contract ReportSafetyIssue {
     function reportSafetyIssue(string memory description, string memory location, bytes32 cid) external {
-        Schema.GlobalState storage s = Storage.state();
-        require(!s.users[msg.sender].isBanned, "User is banned");
+        Schema.GlobalState storage $s = Storage.state();
+        require(!$s.users[msg.sender].isBanned, "User is banned");
 
-        uint256 reportID = s.nextReportID++;
-        Schema.Report storage report = s.reports[reportID];
+        uint256 reportID = $s.nextReportID++;
+        Schema.Report storage report = $s.reports[reportID];
         report.reportID = reportID;
         report.reporterID = msg.sender;
         report.description = description;
@@ -19,7 +19,7 @@ contract ReportSafetyIssue {
         report.cid = cid;
         report.timestamp = block.timestamp;
 
-        s.users[msg.sender].reportCount++;
+        $s.users[msg.sender].reportCount++;
         GlobalStateLib.updateActiveUserCount();
 
         emit ReportCreated(msg.sender, reportID, description, location, cid);

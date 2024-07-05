@@ -7,8 +7,8 @@ import "../utils/GlobalStateLib.sol";
 
 contract CreateLock {
     function createLock(uint256 amount, uint256 unlockTime) external {
-        Schema.GlobalState storage s = Storage.state();
-        require(!s.users[msg.sender].isBanned, "User is banned");
+        Schema.GlobalState storage $s = Storage.state();
+        require(!$s.users[msg.sender].isBanned, "User is banned");
 
         // Check allowance
         uint256 allowance = token.allowance(msg.sender, address(this));
@@ -18,7 +18,7 @@ contract CreateLock {
         require(token.transferFrom(msg.sender, address(this), amount), "Token transfer failed");
 
         // Lock tokens logic
-        s.users[msg.sender].stakeAmount += amount;
+        $s.users[msg.sender].stakeAmount += amount;
         GlobalStateLib.activeUserCount();
 
         emit LockCreated(msg.sender, amount, unlockTime);
