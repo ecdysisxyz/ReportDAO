@@ -3,8 +3,9 @@ pragma solidity ^0.8.23;
 
 import {Schema} from "./Schema.sol";
 
+// cast index-erc7201 ecdysisxyz.reportdao.globalstate
 library Storage {
-    function CounterState() internal pure returns(Schema.$CounterState storage ref) {
-        assembly { ref.slot := 0x9d2213992402928855512c8ba65338877a8da4519b1df3203c2a2647166a8d00 }
+    function state() internal pure returns(Schema.GlobalState storage s) {
+        assembly { s.slot := 0xaa03ac2ea6d7f9d0d6550bebd3c02ab4d9cabe3126f8408c25c1c4622a6dad00 }
     }
 }

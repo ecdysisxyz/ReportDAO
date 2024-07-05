@@ -2,6 +2,7 @@
 pragma solidity ^0.8.23;
 
 library Schema {
+    /// @custom:storage-location erc7201:ecdysisxyz.reportdao.globalstate
     struct GlobalState {
         mapping(address => User) users;
         mapping(uint256 => Report) reports;
