@@ -1,7 +1,7 @@
 # Report DAO
 
 ## For AI
-`cat docs/* src/dao/functions/* src/dao/storage/* src/dao/utils/* | pbcopy` to get full dump of this project.
+`cat docs/* src/main/functions/* src/main/storage/* src/main/utils/* | pbcopy` to get full dump of this project.
 
 ## Overview
 ReportDAO is a decentralized protocol designed to maintain the integrity and safety of communities through user-generated reports and a robust reward system. It leverages the ERC-7546 Upgradeable Clone Standard to ensure modularity, upgradeability, and scalability.
